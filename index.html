@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qubia | Presencia Digital Inteligente</title>
+<meta name="description" content="Qubia transforma tu negocio con inteligencia artificial ética: asistentes virtuales, automatización inteligente y soluciones a medida.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230E0C09' rx='20'/%3E%3Ccircle cx='50' cy='50' r='32' fill='none' stroke='%232DD4BF' stroke-width='4'/%3E%3Cellipse cx='50' cy='50' rx='32' ry='9' fill='none' stroke='%232DD4BF' stroke-width='1.5' opacity='0.6'/%3E%3Cline x1='50' y1='50' x2='68' y2='34' stroke='%232DD4BF' stroke-width='5' stroke-linecap='round'/%3E%3Ccircle cx='68' cy='34' r='7' fill='%232DD4BF'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#0E0C09;
+    --bg-alt:#161310;
+    --bg-card:#1B1712;
+    --line:#2A251E;
+    --teal:#2DD4BF;
+    --gold:#C9A870;
+    --white:#FFFFFF;
+    --gray:#8A8578;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--white);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:var(--teal);
+    font-weight:600;
+  }
+  .eyebrow.gold{color:var(--gold);}
+  h1,h2,h3{font-weight:600;letter-spacing:-0.5px;}
+  section{padding:110px 0;position:relative;}
+  .section-head{max-width:640px;margin-bottom:56px;}
+  .section-head h2{font-size:clamp(28px,4vw,42px);margin:14px 0 16px;}
+  .section-head p{color:var(--gray);font-size:16px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:14px 28px;border-radius:100px;
+    font-size:14px;font-weight:600;letter-spacing:0.3px;
+    cursor:pointer;border:1px solid transparent;
+    transition:all .25s ease;
+  }
+  .btn-primary{background:var(--teal);color:#06110E;}
+  .btn-primary:hover{background:#54e3d1;transform:translateY(-2px);}
+  .btn-outline{border-color:var(--line);color:var(--white);}
+  .btn-outline:hover{border-color:var(--teal);color:var(--teal);}
+
+  /* NAV */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(14,12,9,0.85);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:1180px;margin:0 auto;}
+  .brand{display:flex;align-items:center;gap:10px;font-size:20px;letter-spacing:3px;font-weight:700;}
+  .brand-logo{height:26px;width:auto;display:block;}
+  .nav-links{display:flex;gap:36px;font-size:14px;letter-spacing:0.5px;}
+  .nav-links a{color:var(--gray);transition:color .2s;}
+  .nav-links a:hover{color:var(--teal);}
+  .nav-right{display:flex;align-items:center;gap:22px;}
+  .lang{display:flex;gap:10px;font-size:12px;color:var(--gray);letter-spacing:1px;}
+  .lang span{cursor:pointer;}
+  .lang span.active{color:var(--teal);font-weight:700;}
+  .nav-cta{display:none;}
+  @media(min-width:860px){.nav-cta{display:inline-flex;}}
+  .burger{display:none;color:var(--white);font-size:22px;cursor:pointer;}
+  @media(max-width:860px){
+    .nav-links{display:none;}
+    .lang{display:none;}
+  }
+
+  /* HERO */
+  .hero{
+    padding:190px 0 130px;
+    position:relative;
+    background:
+      radial-gradient(circle at 80% 10%, rgba(45,212,191,0.14), transparent 45%),
+      radial-gradient(circle at 10% 80%, rgba(201,168,112,0.10), transparent 40%);
+  }
+  .hero-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 18px;border:1px solid var(--line);border-radius:100px;
+    font-size:13px;color:var(--teal);margin-bottom:28px;background:rgba(45,212,191,0.06);
+  }
+  .hero h1{font-size:clamp(36px,6vw,64px);max-width:780px;line-height:1.08;}
+  .hero h1 span{color:var(--teal);}
+  .hero p{max-width:560px;color:var(--gray);font-size:18px;margin:26px 0 38px;}
+  .hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
+  .hero-graphic{
+    position:absolute;right:-60px;top:160px;width:420px;height:420px;
+    opacity:0.9;pointer-events:none;
+  }
+  @media(max-width:1050px){.hero-graphic{display:none;}}
+
+  /* SERVICES */
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;}
+  .card{
+    background:var(--bg-card);border:1px solid var(--line);border-radius:18px;
+    padding:36px 30px;transition:border-color .25s, transform .25s;
+  }
+  .card:hover{border-color:var(--teal);transform:translateY(-4px);}
+  .card-num{font-size:13px;color:var(--gold);letter-spacing:2px;font-weight:700;margin-bottom:18px;display:block;}
+  .card h3{font-size:21px;margin-bottom:12px;}
+  .card p{color:var(--gray);font-size:15px;margin-bottom:20px;}
+  .card ul li{
+    font-size:14px;color:var(--white);padding:7px 0 7px 22px;position:relative;border-top:1px solid var(--line);
+  }
+  .card ul li:first-child{border-top:none;}
+  .card ul li:before{content:"→";position:absolute;left:0;color:var(--teal);}
+
+  /* TEAM */
+  .team-bg{background:var(--bg-alt);}
+  .team-main{
+    display:grid;grid-template-columns:1fr 1.3fr;gap:56px;align-items:center;margin-bottom:60px;
+  }
+  @media(max-width:800px){.team-main{grid-template-columns:1fr;}}
+  .avatar-duo{
+    display:flex;align-items:center;justify-content:center;
+    background:var(--bg-card);border:1px solid var(--line);border-radius:20px;
+    padding:50px 20px;gap:-10px;position:relative;
+  }
+  .avatar-circle{
+    width:120px;height:120px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:36px;font-weight:700;letter-spacing:1px;
+    border:2px solid var(--teal);
+  }
+  .avatar-circle.gold-ring{border-color:var(--gold);margin-left:-24px;}
+  .av-1{background:linear-gradient(160deg,#123b36,#0e0c09);color:var(--teal);}
+  .av-2{background:linear-gradient(160deg,#4a3a1e,#0e0c09);color:var(--gold);}
+  .team-main .eyebrow{margin-bottom:14px;}
+  .team-main h3{font-size:26px;margin-bottom:16px;}
+  .team-main p{color:var(--gray);font-size:15px;margin-bottom:14px;}
+  .team-main p b{color:var(--white);}
+
+  .profiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px;}
+  .profile{background:var(--bg-card);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:border-color .25s;}
+  .profile:hover{border-color:var(--teal);}
+  .profile-top{
+    height:170px;display:flex;align-items:center;justify-content:center;
+    font-size:44px;font-weight:700;
+  }
+  .profile-top.p1{background:linear-gradient(150deg,#123b36,#1B1712);color:var(--teal);}
+  .profile-top.p2{background:linear-gradient(150deg,#4a3a1e,#1B1712);color:var(--gold);}
+  .profile-body{padding:24px 26px;}
+  .profile-tag{font-size:11px;letter-spacing:2px;color:var(--gold);font-weight:700;margin-bottom:8px;display:block;}
+  .profile-body h4{font-size:19px;margin-bottom:4px;}
+  .profile-body .role{color:var(--teal);font-size:13px;margin-bottom:10px;}
+  .profile-body p{color:var(--gray);font-size:14px;margin-bottom:16px;}
+  .profile-body .link{font-size:13px;color:var(--white);font-weight:600;}
+
+  /* PROJECTS */
+  .projects{display:flex;flex-direction:column;gap:34px;}
+  .project-card{
+    display:grid;grid-template-columns:1fr 1fr;gap:0;
+    background:var(--bg-card);border:1px solid var(--line);border-radius:22px;overflow:hidden;
+  }
+  @media(max-width:850px){.project-card{grid-template-columns:1fr;}}
+  .project-visual{
+    min-height:320px;display:flex;align-items:center;justify-content:center;position:relative;
+    background:radial-gradient(circle at 30% 30%, rgba(45,212,191,0.16), transparent 60%);
+  }
+  .project-visual.gold-visual{background:radial-gradient(circle at 30% 30%, rgba(201,168,112,0.18), transparent 60%);}
+  .phone-mock{
+    width:170px;height:280px;border:2px solid var(--line);border-radius:24px;
+    background:var(--bg);display:flex;align-items:center;justify-content:center;
+    box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  }
+  .phone-mock .glyph{font-size:46px;}
+  .project-info{padding:44px 40px;}
+  .status-badge{
+    display:inline-block;font-size:11px;letter-spacing:1.5px;font-weight:700;
+    padding:6px 14px;border-radius:100px;margin-bottom:18px;text-transform:uppercase;
+  }
+  .status-live{background:rgba(45,212,191,0.15);color:var(--teal);}
+  .status-soon{background:rgba(201,168,112,0.15);color:var(--gold);}
+  .project-info h3{font-size:26px;margin-bottom:14px;}
+  .project-info>p{color:var(--gray);font-size:15px;margin-bottom:24px;}
+  .feature-tags{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px;}
+  .feature-tags span{
+    font-size:12px;padding:7px 13px;border:1px solid var(--line);border-radius:100px;color:var(--white);
+  }
+  .project-empty{
+    text-align:center;padding:60px 40px;border:1px dashed var(--line);border-radius:22px;
+  }
+  .project-empty h3{font-size:22px;margin:14px 0 10px;}
+  .project-empty p{color:var(--gray);font-size:15px;max-width:420px;margin:0 auto;}
+
+  /* BENEFITS */
+  .benefits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px;}
+  .benefit{background:var(--bg-card);border:1px solid var(--line);border-radius:18px;padding:32px 28px;}
+  .benefit h3{font-size:19px;margin-bottom:20px;}
+  .flow{display:flex;flex-direction:column;gap:6px;font-size:14px;}
+  .flow .before{color:var(--gray);}
+  .flow .before:before{content:"✕ ";color:#8A5B5B;}
+  .flow .arrow{color:var(--teal);font-size:18px;margin:6px 0;}
+  .flow .after{color:var(--white);font-weight:500;}
+  .flow .after:before{content:"✓ ";color:var(--teal);}
+
+  /* CONTACT */
+  .contact-box{
+    display:grid;grid-template-columns:1fr 1.2fr;gap:56px;
+    background:var(--bg-card);border:1px solid var(--line);border-radius:24px;padding:56px;
+  }
+  @media(max-width:850px){.contact-box{grid-template-columns:1fr;padding:36px 24px;}}
+  .contact-box form{display:flex;flex-direction:column;gap:16px;}
+  .contact-box input,.contact-box textarea{
+    background:var(--bg-alt);border:1px solid var(--line);border-radius:12px;
+    padding:14px 16px;color:var(--white);font-size:14px;font-family:inherit;width:100%;
+  }
+  .contact-box input:focus,.contact-box textarea:focus{outline:none;border-color:var(--teal);}
+  .contact-box textarea{min-height:120px;resize:vertical;}
+  .contact-box button{align-self:flex-start;border:none;font-family:inherit;}
+
+  /* FOOTER */
+  footer{background:var(--bg-alt);border-top:1px solid var(--line);padding:70px 0 30px;}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:50px;}
+  @media(max-width:800px){.foot-grid{grid-template-columns:1fr 1fr;}}
+  .foot-brand .brand{margin-bottom:14px;}
+  .foot-brand p{color:var(--gray);font-size:14px;max-width:280px;margin-bottom:20px;}
+  footer h5{font-size:13px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:16px;}
+  footer ul li{margin-bottom:10px;font-size:14px;color:var(--gray);}
+  footer ul li a:hover{color:var(--teal);}
+  .socials{display:flex;gap:12px;margin-top:16px;}
+  .socials a{
+    width:36px;height:36px;border:1px solid var(--line);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:14px;
+  }
+  .socials a:hover{border-color:var(--teal);color:var(--teal);}
+  .foot-bottom{
+    border-top:1px solid var(--line);padding-top:24px;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+    font-size:13px;color:var(--gray);
+  }
+  .foot-bottom a{color:var(--gray);}
+  .foot-bottom a:hover{color:var(--teal);}
+
+  .note{
+    max-width:1180px;margin:0 auto 0;padding:10px 24px;font-size:12px;color:var(--gray);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="#" class="brand">
+      <img src="assets/images/qubia-logo-lockup.png" alt="Qubia" class="brand-logo">
+    </a>
+    <ul class="nav-links">
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#proyectos">Proyectos</a></li>
+      <li><a href="#equipo">Equipo</a></li>
+      <li><a href="#contacto">Contactar</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang"><span class="active">ES</span><span>EN</span><span>IT</span></div>
+      <a href="#contacto" class="btn btn-primary nav-cta">Empezar</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-badge">✨ Presencia Digital Inteligente</div>
+    <h1>Transforma tu empresa con <span>IA responsable</span></h1>
+    <p>Soluciones de inteligencia artificial que respetan la privacidad, automatizan procesos y multiplican tu productividad. Transparencia total, sin cajas negras.</p>
+    <div class="hero-actions">
+      <a href="#contacto" class="btn btn-primary">Contáctanos</a>
+      <a href="#proyectos" class="btn btn-outline">Ver Proyectos</a>
+    </div>
+  </div>
+  <svg class="hero-graphic" viewBox="0 0 400 400" fill="none">
+    <circle cx="200" cy="200" r="140" stroke="#2DD4BF" stroke-width="1.5" opacity="0.5"/>
+    <ellipse cx="200" cy="200" rx="140" ry="38" stroke="#2DD4BF" stroke-width="1" opacity="0.3"/>
+    <ellipse cx="200" cy="200" rx="90" ry="24" stroke="#C9A870" stroke-width="1" opacity="0.35" transform="rotate(30 200 200)"/>
+    <line x1="200" y1="200" x2="300" y2="130" stroke="#2DD4BF" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="300" cy="130" r="10" fill="#2DD4BF"/>
+    <circle cx="200" cy="200" r="4" fill="#C9A870"/>
+  </svg>
+</section>
+
+<section id="servicios">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Qué hacemos</span>
+      <h2>Soluciones Especializadas</h2>
+      <p>Cada solución está diseñada para potenciar tu operación sin comprometer la ética ni la privacidad.</p>
+    </div>
+    <div class="services-grid">
+      <div class="card">
+        <span class="card-num">01</span>
+        <h3>Asistentes Virtuales</h3>
+        <p>Implementación de modelos de lenguaje avanzados y asistentes inteligentes especializados en tu sector.</p>
+        <ul>
+          <li>Integraciones personalizadas</li>
+          <li>Conocimiento especializado</li>
+          <li>Disponibilidad continua</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="card-num">02</span>
+        <h3>Automatización Inteligente</h3>
+        <p>Optimización de procesos empresariales mediante inteligencia artificial y automatización responsable.</p>
+        <ul>
+          <li>Automatización de flujos</li>
+          <li>Reducción de errores</li>
+          <li>Rentabilidad comprobada</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="card-num">03</span>
+        <h3>Soluciones Personalizadas</h3>
+        <p>Desarrollo a medida de soluciones de IA diseñadas específicamente para tu organización.</p>
+        <ul>
+          <li>Análisis de necesidades</li>
+          <li>Implementación guiada</li>
+          <li>Soporte permanente</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="equipo" class="team-bg">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow gold">Nuestro equipo</span>
+      <h2>Quiénes Somos</h2>
+      <p>Un equipo multidisciplinar unido por la pasión de transformar empresas con inteligencia artificial ética y responsable.</p>
+    </div>
+
+    <div class="team-main">
+      <div class="avatar-duo">
+        <svg viewBox="0 0 100 100" fill="none" style="width:130px;height:130px;">
+          <circle cx="50" cy="50" r="38" stroke="#2DD4BF" stroke-width="3"/>
+          <ellipse cx="50" cy="50" rx="38" ry="11" stroke="#2DD4BF" stroke-width="1.2" opacity="0.6"/>
+          <line x1="50" y1="50" x2="72" y2="30" stroke="#2DD4BF" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="72" cy="30" r="6" fill="#2DD4BF"/>
+          <circle cx="50" cy="50" r="3" fill="#C9A870"/>
+        </svg>
+      </div>
+      <div>
+        <span class="eyebrow gold">Nuestra misión</span>
+        <h3>La Visión Detrás de QUBIA</h3>
+        <p>Combinamos ingeniería de sistemas rigurosa con diseño centrado en las personas para transformar empresas.</p>
+        <p>Hemos liderado más de 50 transformaciones digitales, combinando arquitectura de sistemas resilientes con interfaces que inspiran. Nuestra obsesión: soluciones de IA que funcionan, escalan y respetan la privacidad.</p>
+      </div>
+    </div>
+
+    <div class="profiles">
+      <div class="profile">
+        <div class="profile-top p1">🎨</div>
+        <div class="profile-body">
+          <span class="profile-tag">DISEÑO</span>
+          <h4>Diseño & Experiencia</h4>
+          <div class="role">UX/UI · Frontend</div>
+          <p>Interfaces digitales inteligentes, pensadas para inspirar y funcionar en el día a día de tu negocio.</p>
+        </div>
+      </div>
+      <div class="profile">
+        <div class="profile-top p2">⚙️</div>
+        <div class="profile-body">
+          <span class="profile-tag">INGENIERÍA</span>
+          <h4>Ingeniería & IA</h4>
+          <div class="role">MLOps · Arquitectura</div>
+          <p>Sistemas de IA generativa robustos, preparados para escalar a millones de transacciones con seguridad.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="proyectos">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Lo que construimos</span>
+      <h2>Nuestros Proyectos</h2>
+      <p>Aplicaciones revolucionarias de inteligencia artificial en desarrollo y lanzamiento.</p>
+    </div>
+
+    <div class="projects">
+      <div class="project-card">
+        <div class="project-visual">
+          <div class="phone-mock"><span class="glyph">🕊️</span></div>
+        </div>
+        <div class="project-info">
+          <span class="status-badge status-live">¡Ya disponible!</span>
+          <h3>Agora Mujeres</h3>
+          <p>Un espacio emocional seguro: un refugio para respirar, ordenar y soltar. Un lugar donde acompañar a mujeres que sienten mucho, que cargan demasiado, sin tener que ser fuerte todo el tiempo. Un espacio seguro creado desde escuchar historias reales.</p>
+          <div class="feature-tags">
+            <span>Espacio Seguro</span>
+            <span>Acompañamiento</span>
+            <span>Comunidad</span>
+            <span>Recursos</span>
+            <span>Encuentros</span>
+          </div>
+          <a href="#contacto" class="btn btn-outline">Acceder a la App</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-visual gold-visual">
+          <div class="phone-mock"><span class="glyph">🗓️</span></div>
+        </div>
+        <div class="project-info">
+          <span class="status-badge status-soon">Próximo lanzamiento</span>
+          <h3>Lucy</h3>
+          <p>Secretaria ejecutiva con IA. Asistente inteligente que gestiona tu agenda, correos, recordatorios y tareas administrativas con eficiencia empresarial.</p>
+          <div class="feature-tags">
+            <span>Agenda</span>
+            <span>Comunicación</span>
+            <span>Recordatorios</span>
+            <span>Documentos</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-empty">
+        <span class="eyebrow gold">Llega muy pronto</span>
+        <h3>Próximas Aplicaciones</h3>
+        <p>Dos nuevas soluciones de inteligencia artificial en fase de desarrollo. Muy pronto las anunciaremos oficialmente. Mantente atento a nuestras novedades.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="team-bg">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Resultados</span>
+      <h2>Lo Que Ganas Con Nosotras</h2>
+      <p>Resultados medibles desde el primer día.</p>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit">
+        <h3>Privacidad Total</h3>
+        <div class="flow">
+          <span class="before">Datos en servidores terceros</span>
+          <span class="before">Riesgo de brechas</span>
+          <span class="arrow">↓</span>
+          <span class="after">Datos en tu infraestructura</span>
+          <span class="after">GDPR, CCPA, HIPAA certified</span>
+        </div>
+      </div>
+      <div class="benefit">
+        <h3>ROI Inmediato</h3>
+        <div class="flow">
+          <span class="before">Procesos manuales</span>
+          <span class="before">Errores costosos</span>
+          <span class="arrow">↓</span>
+          <span class="after">Automatización 100%</span>
+          <span class="after">ROI en 30 días</span>
+        </div>
+      </div>
+      <div class="benefit">
+        <h3>Escalabilidad</h3>
+        <div class="flow">
+          <span class="before">Sistema se satura</span>
+          <span class="before">Migraciones caóticas</span>
+          <span class="arrow">↓</span>
+          <span class="after">Crece 10x sin reconfiguración</span>
+          <span class="after">Uptime 99.99%</span>
+        </div>
+      </div>
+      <div class="benefit">
+        <h3>Soporte Dedicado</h3>
+        <div class="flow">
+          <span class="before">Soporte genérico lento</span>
+          <span class="before">Problemas sin resolver</span>
+          <span class="arrow">↓</span>
+          <span class="after">Equipo dedicado 24/7</span>
+          <span class="after">Respuesta en minutos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contacto">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Conecta con nosotros</span>
+      <h2>Cuéntanos tu idea</h2>
+      <p>Responderemos en las próximas 24 horas.</p>
+    </div>
+    <div class="contact-box">
+      <div>
+        <h3 style="margin-bottom:14px;">Hablemos de tu proyecto</h3>
+        <p style="color:var(--gray);font-size:15px;margin-bottom:22px;">Cuéntanos qué necesitas y una de nosotras te contactará personalmente.</p>
+        <p style="font-size:14px;color:var(--gray);">📍 Tenerife, España</p>
+        <p style="font-size:14px;color:var(--gray);">✉️ hola@qubia.ai</p>
+        <p style="font-size:14px;color:var(--gray);">📞 +34 XXX XXX XXX</p>
+      </div>
+      <form id="contactForm">
+        <input type="text" name="nombre" placeholder="Nombre" required>
+        <input type="email" name="correo" placeholder="Correo" required>
+        <textarea name="mensaje" placeholder="Cuéntanos sobre tu proyecto" required></textarea>
+        <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#" class="brand">
+          <img src="assets/images/qubia-logo-lockup.png" alt="Qubia" class="brand-logo">
+        </a>
+        <p>Transformamos empresas con IA ética, accesible y responsable.</p>
+        <a href="#contacto" class="btn btn-outline">Contactar</a>
+      </div>
+      <div>
+        <h5>Navegación</h5>
+        <ul>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#proyectos">Proyectos</a></li>
+          <li><a href="#equipo">Equipo</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Ubicación</h5>
+        <ul><li>Tenerife, España</li></ul>
+      </div>
+      <div>
+        <h5>Contacto</h5>
+        <ul>
+          <li>hola@qubia.ai</li>
+          <li>+34 XXX XXX XXX</li>
+        </ul>
+        <div class="socials">
+          <a href="#" title="LinkedIn">in</a>
+          <a href="#" title="Instagram">ig</a>
+          <a href="#" title="Facebook">f</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Qubia. Todos los derechos reservados.</span>
+      <a href="#">Política de Privacidad</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('contactForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var nombre = this.nombre.value, correo = this.correo.value, mensaje = this.mensaje.value;
+    var body = encodeURIComponent('Nombre: ' + nombre + '\nCorreo: ' + correo + '\n\n' + mensaje);
+    window.location.href = 'mailto:hola@qubia.ai?subject=Nuevo%20contacto%20desde%20Qubia&body=' + body;
+  });
+</script>
+
+</body>
+</html>
